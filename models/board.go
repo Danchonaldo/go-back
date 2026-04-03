@@ -1,9 +1,7 @@
 package models
 
-import "gorm.io/gorm"
-
 type Board struct {
-	gorm.Model
+	ID     uint   `gorm:"primaryKey" json:"id"`
 	Title  string `json:"title"`
 	UserID uint   `json:"user_id"`
 }
