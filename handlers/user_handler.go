@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"go-proj/db"
+	"go-proj/config"
 	"go-proj/models"
 	"net/http"
 
@@ -12,13 +12,13 @@ func CreateUser(c *gin.Context) {
 	var user models.User
 	c.BindJSON(&user)
 
-	db.DB.Create(&user)
+	config.DB.Create(&user)
 	c.JSON(http.StatusOK, user)
 }
 
 func GetUsers(c *gin.Context) {
 	var users []models.User
-	db.DB.Find(&users)
+	config.DB.Find(&users)
 
 	c.JSON(http.StatusOK, users)
 }

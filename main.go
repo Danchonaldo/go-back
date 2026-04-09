@@ -1,30 +1,26 @@
 package main
 
 import (
-	"go-proj/db"
+	"go-proj/config"
 	"go-proj/handlers"
+	"go-proj/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
+	config.ConnectDB()
 
-	db.ConnectDB()
+	r.POST("/register", handlers.Register)
+	r.POST("/login", handlers.Login)
 
-	r.POST("/users", handlers.CreateUser)
-	r.GET("/users", handlers.GetUsers)
-
-	r.POST("/boards", handlers.CreateBoard)
-	r.GET("/boards", handlers.GetBoards)
-
-	r.POST("/tasks", handlers.CreateTask)
-	r.GET("/tasks", handlers.GetTasks)
-	r.GET("/tasks/:id", handlers.GetTaskByID)
-	r.PUT("/tasks/:id", handlers.UpdateTask)
-	r.DELETE("/tasks/:id", handlers.DeleteTask)
-
-	r.GET("/boards/:id/tasks", handlers.GetTasksByBoard)
+	auth := r.Group("/")
+	auth.Use(middleware.AuthMiddleware())
+	{
+		auth.POST("/tasks", handlers.CreateTask)
+		auth.GET("/tasks", handlers.GetTasks)
+	}
 
 	r.Run(":8080")
 }
