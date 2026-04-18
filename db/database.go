@@ -1,8 +1,6 @@
-package config
+package db
 
 import (
-	"go-proj/models"
-
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,5 +17,4 @@ func ConnectDB() {
 
 	DB = db
 
-	DB.AutoMigrate(&models.User{}, &models.Board{}, &models.Task{})
 }
