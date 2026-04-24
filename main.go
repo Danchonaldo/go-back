@@ -1,7 +1,7 @@
 package main
 
 import (
-	"go-proj/db"
+	"go-proj/config"
 	"go-proj/handlers"
 	"go-proj/middleware"
 
@@ -10,7 +10,7 @@ import (
 
 func main() {
 	r := gin.Default()
-	db.ConnectDB()
+	config.ConnectDB()
 
 	r.POST("/register", handlers.Register)
 	r.POST("/login", handlers.Login)

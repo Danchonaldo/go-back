@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"go-proj/db"
+	"go-proj/config"
 	"go-proj/models"
 
 	"github.com/gin-gonic/gin"
@@ -25,9 +25,10 @@ func Register(c *gin.Context) {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
 	user.Password = string(hashedPassword)
 
-	db.DB.Create(&user)
+	config.DB.Create(&user)
 	c.JSON(http.StatusOK, gin.H{"message": "User registered"})
 }
+
 func Login(c *gin.Context) {
 	var input models.User
 	var user models.User
@@ -37,7 +38,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	if err := db.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
+	if err := config.DB.Where("email = ?", input.Email).First(&user).Error; err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid email"})
 		return
 	}

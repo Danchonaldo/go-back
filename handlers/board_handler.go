@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"go-proj/db"
+	"go-proj/config"
 	"go-proj/models"
 	"net/http"
 
@@ -12,13 +12,13 @@ func CreateBoard(c *gin.Context) {
 	var board models.Board
 	c.BindJSON(&board)
 
-	db.DB.Create(&board)
+	config.DB.Create(&board)
 	c.JSON(http.StatusOK, board)
 }
 
 func GetBoards(c *gin.Context) {
 	var boards []models.Board
-	db.DB.Find(&boards)
+	config.DB.Find(&boards)
 
 	c.JSON(http.StatusOK, boards)
 }
