@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"go-proj/db"
 	"go-proj/handlers"
 	"go-proj/middleware"
-
-	"github.com/gin-gonic/gin"
 )
 
 func main() {
