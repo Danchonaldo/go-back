@@ -10,12 +10,12 @@ func SendNotification(message string) (string, error) {
 	client := resty.New()
 
 	client.OnBeforeRequest(func(c *resty.Client, req *resty.Request) error {
-		fmt.Println("[Resty] Sending:", req.URL)
+		fmt.Println("[Resty] Sending request:", req.URL)
 		return nil
 	})
 
 	client.OnAfterResponse(func(c *resty.Client, resp *resty.Response) error {
-		fmt.Println("[Resty] Status:", resp.Status())
+		fmt.Println("[Resty] Response:", resp.Status())
 		return nil
 	})
 
@@ -24,7 +24,7 @@ func SendNotification(message string) (string, error) {
 		SetBody(map[string]string{
 			"message": message,
 		}).
-		Post("http://localhost:8083/notify")
+		Post("http://notification-service:8083/notify")
 
 	if err != nil {
 		return "", err

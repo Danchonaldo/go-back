@@ -1,4 +1,4 @@
-module go-proj
+module main_service
 
 go 1.26
 

@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"go-proj/main_service/db"
-	"go-proj/main_service/models"
+	"main_service/db"
+	"main_service/models"
 	"net/http"
 	"time"
 

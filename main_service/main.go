@@ -3,8 +3,9 @@ package main
 import (
 	"log"
 
+	"main_service/handlers"
+
 	"github.com/gin-gonic/gin"
-	"go-proj/main_service/handlers"
 )
 
 func main() {
