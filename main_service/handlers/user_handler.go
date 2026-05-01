@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"go-proj/db"
-	"go-proj/models"
+	"go-proj/main_service/db"
+	"go-proj/main_service/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

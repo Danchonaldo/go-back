@@ -1,11 +1,10 @@
 package handlers
 
 import (
+	"go-proj/main_service/db"
+	"go-proj/main_service/models"
 	"net/http"
 	"time"
-
-	"go-proj/db"
-	"go-proj/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"

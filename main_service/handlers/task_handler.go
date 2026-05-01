@@ -1,19 +1,24 @@
 package handlers
 
 import (
-	"go-proj/db"
-	"go-proj/models"
+	"go-proj/main_service/db"
+	"go-proj/main_service/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func CreateTask(c *gin.Context) {
-	var task models.Task
-	c.BindJSON(&task)
+	resp, err := SendNotification("task created")
+	if err != nil {
+		c.JSON(500, gin.H{"error": "notification failed"})
+		return
+	}
 
-	db.DB.Create(&task)
-	c.JSON(http.StatusOK, task)
+	c.JSON(200, gin.H{
+		"message": "task created",
+		"notify":  resp,
+	})
 }
 
 func GetTasks(c *gin.Context) {
