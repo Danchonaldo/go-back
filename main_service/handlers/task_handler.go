@@ -9,14 +9,27 @@ import (
 )
 
 func CreateTask(c *gin.Context) {
-	resp, err := SendNotification("task created")
-	if err != nil {
-		c.JSON(500, gin.H{"error": "notification failed"})
+	var task models.Task
+
+	if err := c.BindJSON(&task); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{
+	if err := db.DB.Create(&task).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create task"})
+		return
+	}
+
+	resp, err := SendNotification("task created: " + task.Title)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{"message": "task created", "notify": "notification failed"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
 		"message": "task created",
+		"task":    task,
 		"notify":  resp,
 	})
 }
