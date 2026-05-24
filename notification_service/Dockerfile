@@ -1,14 +1,21 @@
-FROM golang:1.26
+FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
 COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod download || true
 
 COPY . .
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o notification_service .
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app
+
+COPY --from=builder /app/notification_service .
 
 EXPOSE 8083
 
-CMD ["./main"]
+CMD ["./notification_service"]
